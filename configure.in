@@ -404,6 +404,8 @@ ac_link="$ac_link "'$EXTRA_LIBS'
 AC_SUBST(EXTRA_CXXFLAGS)
 ac_compile="$ac_compile "'$EXTRA_CXXFLAGS'
 
+AC_HEADER_STDC
+
 #
 # thread support
 #
@@ -1324,7 +1326,6 @@ CURSES_LIBS="$LIBS $SHLIBS"
 # Checks for header files.
 #
 
-AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h sys/select.h strings.h float.h ieeefp.h)
 AC_CHECK_HEADERS(sys/un.h netinet/in.h arpa/inet.h netdb.h dlfcn.h dl.h)
 AC_CHECK_HEADERS(netinet/tcp.h stdlib.h sys/time.h sunmath.h sys/stat.h)
