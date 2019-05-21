@@ -30,7 +30,7 @@ CXXFLAGS := -DBUILD_MICO_DLL $(CXXFLAGS)
 endif
 endif
 
-PLATFORM_LIBS =
+PLATFORM_LIBS = $(CONFLIBS)
 ifeq ($(HAVE_CYGWIN), yes)
 ifeq ($(USE_CSL2), yes)
 PLATFORM_LIBS := $(PLATFORM_LIBS) -lssl -lcrypto
