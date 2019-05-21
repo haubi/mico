@@ -152,8 +152,8 @@ AC_ARG_WITH(qt,
  QTDIR=$withval, QTDIR="")
 
 AC_ARG_WITH(gtk,
- [  --with-gtk=gtkdir       use GTK installed in gtkdir],
- GTKDIR=$withval, GTKDIR="")
+ [  --with-gtk=gtk-major    use GTK major version, either 1, 2 or 3],
+ , with_gtk="no")
 
 AC_ARG_WITH(tcl,
  [  --with-tcl=tcldir       use TCL installed in tcldir],
@@ -1180,16 +1180,28 @@ else
 fi
 
 
+HAVE_GTK=no
 AC_SUBST(HAVE_GTK)
 
-if test X"$GTKDIR" != X; then
-  AM_PATH_GTK(,HAVE_GTK=yes,
-	      AC_MSG_WARN(cannot find gtk-config. GTK parts disabled)
-              HAVE_GTK=no)
-else
-  HAVE_GTK=no
+if test "X$with_gtk" = Xyes -o "X$with_gtk" = X3; then
+  AC_LANG_C
+  AM_PATH_GTK_3_0(,HAVE_GTK=yes; with_gtk=3)
+  AC_LANG_CPLUSPLUS
 fi
 
+if test "X$with_gtk" = Xyes -o "X$with_gtk" = X2; then
+  AC_LANG_C
+  AM_PATH_GTK_2_0(,HAVE_GTK=yes; with_gtk=2)
+  AC_LANG_CPLUSPLUS
+fi
+
+if test "X$with_gtk" = Xyes -o "X$with_gtk" = X1; then
+  AM_PATH_GTK(,HAVE_GTK=yes; with_gtk=1)
+fi
+
+if test "X$with_gtk" != Xno && test "X$HAVE_GTK" = Xno; then
+  AC_MSG_WARN(cannot find any GTK+ version, GTK parts disabled)
+fi
 
 AC_SUBST(HAVE_TCL)
 AC_SUBST(TCL_LIBS)
