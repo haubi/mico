@@ -1166,7 +1166,7 @@ if test X"$QTDIR" != X; then
     AC_MSG_WARN(cannot find moc. QT parts disabled.)
     HAVE_QT=no
   fi
-  if test X"$HAVE_THREADS" = Xyes; then
+  if false && test X"$HAVE_THREADS" = Xyes; then
     AC_CHECK_LIB(qt-mt, open, qt_mt=yes, qt_mt=no)
     if test X"$qt_mt" = Xno; then
       AC_MSG_WARN(cannot find multi-threaded version of QT library. QT parts disabled.)
