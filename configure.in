@@ -1237,9 +1237,7 @@ HAVE_X11=$have_x
 
 
 AC_CHECK_LIB(socket, open)
-AC_CHECK_LIB(bsd, open)
 
-AC_CHECK_LIB(elf, open)
 AC_CHECK_LIB(dl, open)
 AC_CHECK_LIB(dld, open)
 AC_CHECK_LIB(ld, open)
