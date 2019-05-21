@@ -75,6 +75,13 @@ int main( int argc, char *argv[] )
   DB db;
 
   // ORB initialization
+  // Resolving the hostname is useless in the IDL compiler.
+  vector<char*> argvv;
+  argvv.push_back(argv[0]);
+  argvv.push_back(strdup("-ORBNoResolve"));
+  argvv.insert(argvv.end(), &argv[1], &argv[argc]);
+  ++argc;
+  argv = &argvv.front();
   CORBA::ORB_var orb = CORBA::ORB_init (argc, argv);
 
 #ifdef _WIN32

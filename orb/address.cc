@@ -635,8 +635,11 @@ MICO::InetAddress::hostname ()
 {
     if (hname.length() == 0) {
         char buf[200];
-        int r = gethostname (buf, 200);
-	assert (r == 0);
+	if (_resolve) {
+	    int r = gethostname (buf, 200);
+	    assert (r == 0);
+	} else
+	    strcpy(buf, "localhost");
         /*
          * some OSes do not return an FQDN. So we get the ip address for the
          * hostname and resolve that address into the FQDN...
