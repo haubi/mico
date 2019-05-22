@@ -727,8 +727,8 @@ CORBA::ORB::ORB (int &argc, char **argv, const char *rcfile)
 CORBA::ORB::~ORB ()
 {
 #ifdef USE_ORB_CACHE
-    if (_cache_used && _cache_rec != NULL)
-	delete _cache_rec;
+    _cache_used = FALSE;
+    _cache_rec = NULL;
 #endif
     assert(this->_disp != NULL);
     delete _disp;
@@ -2369,7 +2369,7 @@ CORBA::ORB::create_invoke (MsgId msgid)
     if (!_cache_used) {
 	_cache_used = TRUE;
 	_cache_rec = new ORBInvokeRec(msgid);
-	return _cache_rec;
+	return ORBInvokeRec::_duplicate(_cache_rec);
     }
 #endif
     return new ORBInvokeRec(msgid);
@@ -2416,7 +2416,7 @@ CORBA::ORB::get_invoke (MsgId id)
 {
 #ifdef USE_ORB_CACHE
     if (_cache_used && _cache_rec->id() == id && _cache_rec->active() )
-	return _cache_rec;
+	return CORBA::ORBInvokeRec::_duplicate(_cache_rec);
 #endif
 
     if (MICO::Logger::IsLogged (MICO::Logger::ORB)) {
@@ -2464,7 +2464,7 @@ CORBA::ORB::del_invoke (MsgId id)
 {
 #ifdef USE_ORB_CACHE
     if (_cache_used && _cache_rec->id() == id) {
-	delete _cache_rec;
+	_cache_rec = NULL;
 	_cache_used = FALSE;
 	return;
     }
@@ -2839,6 +2839,7 @@ CORBA::ORB::invoke_async (Object_ptr obj,
 #ifdef USE_ORB_CACHE
 	  if (_cache_used && _cache_rec == rec) {
 	    _cache_used = FALSE;
+	    _cache_rec = NULL;
 	  }
 #endif
 	  //delete rec;

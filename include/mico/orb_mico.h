@@ -308,7 +308,7 @@ private:
     OctetSeq _terminal_id;
 
 #ifdef USE_ORB_CACHE
-    ORBInvokeRec *_cache_rec;
+    ORBInvokeRec_var _cache_rec;
     CORBA::Boolean _cache_used;
 #endif
     typedef std::map<std::string, bool> OptionMap;
