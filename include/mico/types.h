@@ -31,10 +31,10 @@ typedef short MICO_Short;
 #error "sizeof(short) != 2"
 #endif
 
-#if SIZEOF_LONG == 4
-typedef long MICO_Long;
-#elif SIZEOF_INT == 4
+#if SIZEOF_INT == 4
 typedef int MICO_Long;
+#elif SIZEOF_LONG == 4
+typedef long MICO_Long;
 #else
 #error "sizeof(long) != 4 and sizeof(int) != 4"
 #endif
@@ -55,10 +55,10 @@ typedef unsigned short MICO_UShort;
 #error "sizeof(unsigned short) != 2"
 #endif
 
-#if SIZEOF_UNSIGNED_LONG == 4
-typedef unsigned long MICO_ULong;
-#elif SIZEOF_UNSIGNED_INT == 4
+#if SIZEOF_UNSIGNED_INT == 4
 typedef unsigned int MICO_ULong;
+#elif SIZEOF_UNSIGNED_LONG == 4
+typedef unsigned long MICO_ULong;
 #else
 #error "sizeof(unsigned long) != 4 and sizeof(unsigned int) != 4"
 #endif

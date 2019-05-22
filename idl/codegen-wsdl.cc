@@ -934,7 +934,7 @@ CodeGenWSDL::Identifier CodeGenWSDL::getTypename(CORBA::IDLType_ptr type, bool p
  		{
  			CORBA::StringDef_ptr s =
  				CORBA::StringDef::_narrow(type);
- 			sprintf(&buf[0], "%sCORBA.string_%lu",
+			sprintf(&buf[0], "%sCORBA.string_%u",
 				prefix?"tns:":"",
  				s->bound());
  			return &buf[0];
@@ -945,7 +945,7 @@ CodeGenWSDL::Identifier CodeGenWSDL::getTypename(CORBA::IDLType_ptr type, bool p
  		{
  			CORBA::WstringDef_ptr s =
  				CORBA::WstringDef::_narrow(type);
-	 		sprintf(&buf[0], "%sCORBA.string_%lu",
+			sprintf(&buf[0], "%sCORBA.string_%u",
 				prefix?"tns:":"",
 	 			s->bound());
 	 		return &buf[0];
@@ -956,7 +956,7 @@ CodeGenWSDL::Identifier CodeGenWSDL::getTypename(CORBA::IDLType_ptr type, bool p
 		{
 			CORBA::SequenceDef_ptr s =
 				CORBA::SequenceDef::_narrow(type);
-			sprintf(&buf[0], "%sCORBA.sequence_%lu_",
+			sprintf(&buf[0], "%sCORBA.sequence_%u_",
 				prefix?"tns:":"",
 				s->bound());
 			return &buf[0] +  getTypename(s->element_type_def(), false);
@@ -967,7 +967,7 @@ CodeGenWSDL::Identifier CodeGenWSDL::getTypename(CORBA::IDLType_ptr type, bool p
 		{
 			CORBA::ArrayDef_ptr a =
 				CORBA::ArrayDef::_narrow(type);
-			sprintf(&buf[0], "%sCORBA.array_%lu_",
+			sprintf(&buf[0], "%sCORBA.array_%u_",
 				prefix?"tns:":"",
 				a->length());
 			return &buf[0] + getTypename(a->element_type_def(), false);

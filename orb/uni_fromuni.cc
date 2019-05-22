@@ -1073,7 +1073,7 @@ cont:         dest[di++] = ';';
             }
             else
             {
-              sprintf(buffer, "&#%lu;", character);
+              sprintf(buffer, "&#%u;", character);
               strcpy(&dest[di], buffer);
               di += strlen(buffer);
             }
