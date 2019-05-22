@@ -348,14 +348,26 @@ CORBA::Buffer::put2 (const void *p)
     // assert (((_wptr - _walignbase) % 2) == 0);
     assert (!_readonly && _wptr >= _walignbase);
     resize (2);
-    CORBA::Octet *b = _buf + _wptr;
-    if (!(((long)b | (long)p)&1)) {
-	*((CORBA::Short *&)b)++ = *(const CORBA::Short *)p;
+    union {
+	const CORBA::Short *shortPtr;
+	const CORBA::Octet *octetPtr;
+	const void *voidPtr;
+	uintptr_t uintPtr;
+    } in;
+    in.voidPtr = p;
+    union {
+	CORBA::Short *shortPtr;
+	CORBA::Octet *octetPtr;
+	uintptr_t uintPtr;
+    } out;
+    out.octetPtr = _buf + _wptr;
+    if (!((out.uintPtr | in.uintPtr)&1)) {
+	*out.shortPtr++ = *in.shortPtr;
     } else {
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *(const Octet *)p;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr;
     }
-    size_t t = b - _buf;
+    size_t t = out.octetPtr - _buf;
     assert(t < UINT_MAX);
     _wptr = (ULong)t;
 }
@@ -366,16 +378,28 @@ CORBA::Buffer::put4 (const void *p)
    // assert (((_wptr - _walignbase) % 4) == 0);
     assert (!_readonly && _wptr >= _walignbase);
     resize (4);
-    CORBA::Octet *b = _buf + _wptr;
-    if (!(((long)b | (long)p)&3)) {
-	*((CORBA::Long * &)b)++ = *(const CORBA::Long *)p;
+    union {
+	const CORBA::Long *longPtr;
+	const CORBA::Octet *octetPtr;
+	const void *voidPtr;
+	uintptr_t uintPtr;
+    } in;
+    in.voidPtr = p;
+    union {
+	CORBA::Long *longPtr;
+	CORBA::Octet *octetPtr;
+	uintptr_t uintPtr;
+    } out;
+    out.octetPtr = _buf + _wptr;
+    if (!((out.uintPtr | in.uintPtr)&3)) {
+	*out.longPtr++ = *in.longPtr;
     } else {
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *(const Octet *)p;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr;
     }
-    size_t t = b - _buf;
+    size_t t = out.octetPtr - _buf;
     assert(t < UINT_MAX);
     _wptr = (ULong)t;
 }
@@ -386,20 +410,32 @@ CORBA::Buffer::put8 (const void *p)
     // assert (((_wptr - _walignbase) % 8) == 0);
     assert (!_readonly && _wptr >= _walignbase);
     resize (8);
-    CORBA::Octet *b = _buf + _wptr;
-    if (!(((long)b | (long)p)&7)) {
-	*((CORBA::LongLong *&)b)++ = *(const CORBA::LongLong *)p;
+    union {
+	const CORBA::LongLong *longlongPtr;
+	const CORBA::Octet *octetPtr;
+	const void *voidPtr;
+	uintptr_t uintPtr;
+    } in;
+    in.voidPtr = p;
+    union {
+	CORBA::LongLong *longlongPtr;
+	CORBA::Octet *octetPtr;
+	uintptr_t uintPtr;
+    } out;
+    out.octetPtr = _buf + _wptr;
+    if (!((out.uintPtr | in.uintPtr)&7)) {
+	*out.longlongPtr++ = *in.longlongPtr;
     } else {
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *(const Octet *)p;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr;
     }
-    size_t t = b - _buf;
+    size_t t = out.octetPtr - _buf;
     assert(t < UINT_MAX);
     _wptr = (ULong)t;
 }
@@ -411,29 +447,41 @@ CORBA::Buffer::put16 (const void *p)
     //  assert (((_wptr - _walignbase) % 8) == 0);
     assert (!_readonly && _wptr >= _walignbase);
     resize (16);
-    CORBA::Octet *b = _buf + _wptr;
-    if (!(((long)b | (long)p)&7)) {
-	*((CORBA::LongLong *&)b)++ = *((const CORBA::LongLong * &)p)++;
-	*((CORBA::LongLong *&)b)++ = *(const CORBA::LongLong *)p;
+    union {
+	const CORBA::LongLong *longlongPtr;
+	const CORBA::Octet *octetPtr;
+	const void *voidPtr;
+	uintptr_t uintPtr;
+    } in;
+    in.voidPtr = p;
+    union {
+	CORBA::LongLong *longlongPtr;
+	CORBA::Octet *octetPtr;
+	uintptr_t uintPtr;
+    } out;
+    out.octetPtr = _buf + _wptr;
+    if (!((out.uintPtr | in.uintPtr)&7)) {
+	*out.longlongPtr++ = *in.longlongPtr++;
+	*out.longlongPtr++ = *in.longlongPtr;
     } else {
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *((const Octet * &)p)++;
-	*b++ = *(const Octet *)p;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr++;
+	*out.octetPtr++ = *in.octetPtr;
     }
-    size_t t = b - _buf;
+    size_t t = out.octetPtr - _buf;
     assert(t < UINT_MAX);
     _wptr = (ULong)t;
 }

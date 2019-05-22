@@ -1959,11 +1959,11 @@ MICOSSL::SSLComponent::encode (CORBA::DataEncoder &ec) const
     {
 	// MICO_SSL_VB_COMPAT ...
 	if (sizeof (Security::AssociationOptions) == sizeof (CORBA::ULong)) {
-	    ec.put_ulong ((CORBA::ULong&)_target_supports);
-	    ec.put_ulong ((CORBA::ULong&)_target_requires);
+	    ec.put_ulong ((CORBA::ULong)_target_supports);
+	    ec.put_ulong ((CORBA::ULong)_target_requires);
 	} else {
-	    ec.put_ushort ((CORBA::UShort&)_target_supports);
-	    ec.put_ushort ((CORBA::UShort&)_target_requires);
+	    ec.put_ushort ((CORBA::UShort)_target_supports);
+	    ec.put_ushort ((CORBA::UShort)_target_requires);
 	}
 	ec.put_ushort (_port);
     }
@@ -2049,11 +2049,13 @@ MICOSSL::SSLComponentDecoder::decode (CORBA::DataDecoder &dc,
     {
         // MICO_SSL_VB_COMPAT ...
 	if (sizeof (Security::AssociationOptions) == sizeof (CORBA::ULong)) {
-	    check (dc.get_ulong ((CORBA::ULong&)target_supports));
-	    check (dc.get_ulong ((CORBA::ULong&)target_requires));
+	    CORBA::ULong opts;
+	    check (dc.get_ulong (opts)); target_supports = opts;
+	    check (dc.get_ulong (opts)); target_requires = opts;
 	} else {
-	    check (dc.get_ushort ((CORBA::UShort&)target_supports));
-	    check (dc.get_ushort ((CORBA::UShort&)target_requires));
+	    CORBA::UShort opts;
+	    check (dc.get_ushort (opts)); target_supports = opts;
+	    check (dc.get_ushort (opts)); target_requires = opts;
 	}
 	check (dc.get_ushort (port));
     }
