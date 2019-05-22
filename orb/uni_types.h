@@ -40,15 +40,15 @@
 #include <sys/types.h>
 #endif
 
-typedef char  bits8;
-typedef short bits16;
-typedef long  bits32;
+typedef unsigned char  bits8;
+typedef unsigned short bits16;
+typedef unsigned int   bits32;
 #if defined(_WIN32) && !defined(__MINGW32__)
-typedef __int64 bits64;
+typedef unsigned __int64 bits64;
 #elif defined (_POCKET_PC)
-typedef __int64 bits64;
+typedef unsigned __int64 bits64;
 #else
-typedef long long bits64;
+typedef unsigned long long bits64;
 #endif
 
 typedef char uni_byte;
