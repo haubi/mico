@@ -79,7 +79,7 @@ void register_ns (CORBA::ORB_ptr orb, const char *_name, CORBA::Object_ptr obj)
 #ifdef HAVE_EXCEPTIONS      
       try {
 	 name = nce->to_name(_name);
-      } catch (CosNaming::NamingContextExt::InvalidAddress) {
+      } catch (CosNaming::NamingContextExt::InvalidAddress&) {
 	 cerr << "Wrong format for regname!" << endl;
 	 exit(1);
       }
@@ -93,7 +93,7 @@ void register_ns (CORBA::ORB_ptr orb, const char *_name, CORBA::Object_ptr obj)
 #ifdef HAVE_EXCEPTIONS      	 
 	 try { 
 	    nce->resolve(tmp.in()); 
-	 } catch (CosNaming::NamingContext::NotFound) {
+	 } catch (CosNaming::NamingContext::NotFound&) {
 	    nce->bind_new_context(tmp.in());
 	 }
 #else 	 

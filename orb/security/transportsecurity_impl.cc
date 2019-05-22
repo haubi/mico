@@ -879,7 +879,7 @@ MICOSL3_TransportSecurity::CredentialsCurator_impl::get_target_credentials
     } catch (CORBA::BAD_PARAM&) {
 	// this is thrown by MICO and CORBA 2.2. It seems MICO
 	// is not compliant here with CORBA 2.3.
-    } catch (CORBA::SystemException) {
+    } catch (CORBA::SystemException&) {
 	// CORBA 2.3 and highers might throw either INV_POLICY
 	// or BAD_INV_ORDER exceptions
     }
@@ -891,7 +891,7 @@ MICOSL3_TransportSecurity::CredentialsCurator_impl::get_target_credentials
     } catch (CORBA::BAD_PARAM&) {
 	// this is thrown by MICO and CORBA 2.2. It seems MICO
 	// is not compliant here with CORBA 2.3.
-    } catch (CORBA::SystemException) {
+    } catch (CORBA::SystemException&) {
 	// CORBA 2.3 and highers might throw either INV_POLICY
 	// or BAD_INV_ORDER exceptions
     }

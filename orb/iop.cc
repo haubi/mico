@@ -3893,7 +3893,7 @@ MICO::IIOPProxy::make_conn (CORBA::Object_ptr obj, CORBA::Boolean& timedout)
 	} catch (CORBA::BAD_PARAM&) {
 	    // this is thrown by MICO and CORBA 2.2. It seems MICO
 	    // is not compliant here with CORBA 2.3.
-	} catch (CORBA::SystemException) {
+	} catch (CORBA::SystemException&) {
 	    // CORBA 2.3 and highers might throw either INV_POLICY
 	    // or BAD_INV_ORDER exceptions
 	}
@@ -3905,7 +3905,7 @@ MICO::IIOPProxy::make_conn (CORBA::Object_ptr obj, CORBA::Boolean& timedout)
 	} catch (CORBA::BAD_PARAM&) {
 	    // this is thrown by MICO and CORBA 2.2. It seems MICO
 	    // is not compliant here with CORBA 2.3.
-	} catch (CORBA::SystemException) {
+	} catch (CORBA::SystemException&) {
 	    // CORBA 2.3 and highers might throw either INV_POLICY
 	    // or BAD_INV_ORDER exceptions
 	}
