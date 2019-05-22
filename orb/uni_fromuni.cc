@@ -50,7 +50,7 @@
 static char FindException(const cexcept *array, uni_ubyte arrlen,
                           register uni_ushort unicode);
 
-static const char uni2ebcArray[] =  /* beginning with 0x20 (32) */
+static const unsigned char uni2ebcArray[] =  /* beginning with 0x20 (32) */
 {
   0x40, 0x5A, 0x7E, 0x7B, 0x5B, 0x6C, 0x50, 0x7D,  /* 0x20-0x27 ( 32- 39) */
   0x4D, 0x5D, 0x5C, 0x4E, 0x6B, 0x6D, 0x4B, 0x61,  /* 0x28-0x2F ( 40- 47) */
@@ -112,7 +112,7 @@ static const uni_ubyte uni2htmlArray[] =  /* beginning with 0xa0 (160) */
   **                      0x2014 (unicode) => "mdash" (HTML) (em dash) */
 };
 
-static const char uni2macArray[] =  /* beginning with 0xA0 (160) */
+static const unsigned char uni2macArray[] =  /* beginning with 0xA0 (160) */
 {
   0xCA, 0xC1, 0xA2, 0xA3,  /* 0xA0-0xA3 (160-163) */
   0xDB, 0xB4, '\0', 0xA4,  /* 0xA4-0xA7 (164-167) */
@@ -166,7 +166,7 @@ static const cexcept exc2macArray[] =
   { 0xFB01 , 0xDE } , { 0xFB02 , 0xDF }
 };
 
-static const char uni2koiArray1[] =  /* beginning with 0x0410 (1040) */
+static const unsigned char uni2koiArray1[] =  /* beginning with 0x0410 (1040) */
 {
   0xE1, 0xE2, 0xF7, 0xE7,  /* 0x0410-0x0413 (1040-1043) */
   0xE4, 0xE5, 0xF6, 0xFA,  /* 0x0414-0x0417 (1044-1047) */
@@ -189,7 +189,7 @@ static const char uni2koiArray1[] =  /* beginning with 0x0410 (1040) */
   0xD8, 0xDC, 0xC0, 0xD1   /* 0x044C-0x044F (1100-1103) */
 };
 
-static const char uni2koiArray2[] =  /* beginning with 0x2550 (9552) */
+static const unsigned char uni2koiArray2[] =  /* beginning with 0x2550 (9552) */
 {
   0xA0, 0xA1, 0xA2, 0xA4,  /* 0x0250-0x0253 (9552-9555) */
   0xA5, 0xA6, 0xA7, 0xA8,  /* 0x0254-0x0257 (9556-9559) */
@@ -218,7 +218,7 @@ static const cexcept exc2koiArray[] =
   { 0x2592 , 0x91 } , { 0x2593 , 0x92 }
 };
 
-static const char uni2ibm866Array1[] =  /* beginning with 0x0410 (1040) */
+static const unsigned char uni2ibm866Array1[] =  /* beginning with 0x0410 (1040) */
 {
   0x80, 0x81, 0x82, 0x83,  /* 0x0410-0x0413 (1040-1043) */
   0x84, 0x85, 0x86, 0x87,  /* 0x0414-0x0417 (1044-1047) */
@@ -241,7 +241,7 @@ static const char uni2ibm866Array1[] =  /* beginning with 0x0410 (1040) */
   0xEC, 0xED, 0xEE, 0xEF,  /* 0x044C-0x044F (1100-1103) */
 };
 
-static const char uni2ibm866Array2[] =  /* beginning with 0x2550 (9552) */
+static const unsigned char uni2ibm866Array2[] =  /* beginning with 0x2550 (9552) */
 {
   0xCD, 0xBA, 0xD5, 0xD6,  /* 0x2550-0x2553 (9552-9555) */
   0xC9, 0xB8, 0xB7, 0xBB,  /* 0x2554-0x2557 (9556-9559) */
@@ -270,7 +270,7 @@ static const cexcept exc2ibm866Array[] =
 { 0x2593 , 0xB2 } , { 0x25A0 , 0xFE } ,
 };
 
-static const char uni2isoArray[] =  /* beginning with 0x0100 (256) */
+static const unsigned char uni2isoArray[] =  /* beginning with 0x0100 (256) */
 {
   0xC0, 0xE0, 0xC3, 0xE3,  /* 0x0100-0x0103 (256-259) */
   0xA1, 0xB1, 0xC6, 0xE6,  /* 0x0104-0x0107 (260-263) */
@@ -363,7 +363,7 @@ static const cexcept exc2iso10Array[] =
   { 0x0336 , 0xBD }
 };
 
-static const char uni2ibmArray1[] =  /* beginning with 0xA0 (160) */
+static const unsigned char uni2ibmArray1[] =  /* beginning with 0xA0 (160) */
 {
   0xFF, 0xAD, 0x9B, 0x9C,  /* 0xA0-0xA3 (160-163) */
   0xCF, 0x9D, 0xDD, 0x15,  /* 0xA4-0xA7 (164-167) */
@@ -436,7 +436,7 @@ static const char uni2ibmArray1[] =  /* beginning with 0xA0 (160) */
   0xBE, 0xA6, 0xA7, '\0'   /* 0x017C-0x017F (380-383) */
 };
 
-static const char uni2ibmArray2[] =  /* beginning with 0x2550 (9552) */
+static const unsigned char uni2ibmArray2[] =  /* beginning with 0x2550 (9552) */
 {
   0xCD, 0xBA, 0xD5, 0xD6,  /* 0x0250-0x0253 (9552-9555) */
   0xC9, 0xB8, 0xB7, 0xBB,  /* 0x0254-0x0257 (9556-9559) */

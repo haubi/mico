@@ -38,7 +38,7 @@ typedef struct
 typedef struct
 {
   uni_ushort unicode;
-  char   code;
+  unsigned char code;
 }cexcept;
 
 typedef struct
@@ -50,7 +50,7 @@ typedef struct
 
 typedef struct
 {
-  const char   *array;
+  const unsigned char   *array;
   uni_ushort  offset;
   uni_ubyte   size;
   bits32  transMask;
