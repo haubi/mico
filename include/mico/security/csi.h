@@ -154,8 +154,8 @@ class IdentityToken {
     } _m;
 
   public:
-    #ifdef HAVE_EXPLICIT_STRUCT_OPS
     IdentityToken();
+    #ifdef HAVE_EXPLICIT_STRUCT_OPS
     ~IdentityToken();
     IdentityToken( const IdentityToken& s );
     IdentityToken& operator=( const IdentityToken& s );
@@ -304,8 +304,8 @@ class SASContextBody {
     } _m;
 
   public:
-    #ifdef HAVE_EXPLICIT_STRUCT_OPS
     SASContextBody();
+    #ifdef HAVE_EXPLICIT_STRUCT_OPS
     ~SASContextBody();
     SASContextBody( const SASContextBody& s );
     SASContextBody& operator=( const SASContextBody& s );

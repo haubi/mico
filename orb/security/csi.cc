@@ -193,11 +193,12 @@ namespace CSI
 CORBA::TypeCodeConst _tc_IdentityToken;
 }
 
-#ifdef HAVE_EXPLICIT_STRUCT_OPS
 CSI::IdentityToken::IdentityToken()
+	: _discriminator(ITTAbsent)
 {
 }
 
+#ifdef HAVE_EXPLICIT_STRUCT_OPS
 CSI::IdentityToken::IdentityToken( const IdentityToken&_u )
 {
   _discriminator = _u._discriminator;
@@ -904,11 +905,12 @@ namespace CSI
 CORBA::TypeCodeConst _tc_SASContextBody;
 }
 
-#ifdef HAVE_EXPLICIT_STRUCT_OPS
 CSI::SASContextBody::SASContextBody()
+	: _discriminator(MTEstablishContext)
 {
 }
 
+#ifdef HAVE_EXPLICIT_STRUCT_OPS
 CSI::SASContextBody::SASContextBody( const SASContextBody&_u )
 {
   _discriminator = _u._discriminator;
