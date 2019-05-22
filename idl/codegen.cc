@@ -124,14 +124,6 @@ OutputStream &OutputStream::operator<<( const CORBA::WChar *s )
   return *this;
 }
 
-#if SIZEOF_LONG == 4
-OutputStream &OutputStream::operator<<( int i )
-{
-  checkBofL();
-  *_ostr << i;
-  return *this;
-}
-#endif
 
 
 OutputStream &OutputStream::operator<<( CORBA::LongDouble ld )
@@ -605,13 +597,6 @@ Output &Output::operator<<( const CORBA::WChar *s )
   return *this;
 }
 
-#if SIZEOF_LONG == 4
-Output &Output::operator<<( int i )
-{
-  (*_streams[ _current_stream ]) << i;
-  return *this;
-}
-#endif
 
 Output &Output::operator<<( CORBA::LongDouble ld )
 {

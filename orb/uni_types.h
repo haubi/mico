@@ -56,12 +56,12 @@ typedef unsigned char uni_ubyte;
 typedef unsigned char uni_uchar;
 typedef unsigned short uni_ushort;
 
-#if SIZEOF_LONG == 4
-typedef long uni_slong;
-typedef unsigned long uni_ulong;
-#elif SIZEOF_INT == 4
+#if SIZEOF_INT == 4
 typedef int uni_slong;
 typedef unsigned int uni_ulong;
+#elif SIZEOF_LONG == 4
+typedef long uni_slong;
+typedef unsigned long uni_ulong;
 #else
 #error "no builtin 4 byte interger type"
 #endif

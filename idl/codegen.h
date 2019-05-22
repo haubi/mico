@@ -80,10 +80,6 @@ public:
   OutputStream &operator<<( const char *s );
   OutputStream &operator<<( const std::string &str );
   OutputStream &operator<<( const CORBA::WChar *s );
-#if SIZEOF_LONG == 4
-  // on 64 bit systems CORBA::Long is int
-  OutputStream &operator<<( int i );
-#endif
   OutputStream &operator<<( CORBA::LongDouble ld );
   OutputStream &operator<<( CORBA::Float f );
   OutputStream &operator<<( CORBA::Double d );
@@ -127,10 +123,6 @@ public:
   Output &operator<<( const char *s );
   Output &operator<<( const std::string &str );
   Output &operator<<( const CORBA::WChar *s );
-#if SIZEOF_LONG == 4
-  // on 64 bit systems CORBA::Long is int
-  Output &operator<<( int i );
-#endif
   Output &operator<<( CORBA::LongDouble ld );
   Output &operator<<( CORBA::Float f );
   Output &operator<<( CORBA::Double d );

@@ -1079,7 +1079,7 @@ cont:         dest[di++] = ';';
             }
             else
             {
-              sprintf(buffer, "&#%lu;", character);
+              sprintf(buffer, "&#%u;", character);
               strcpy(&dest[di], buffer);
 	      assert(strlen(buffer) < UINT_MAX);
               di += (uni_uword)strlen(buffer);

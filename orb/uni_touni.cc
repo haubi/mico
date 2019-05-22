@@ -839,7 +839,7 @@ static uni_ulong ScanHTML(register const char *src, uni_uword *length)
     if(src[i] != ';') return(0l);  /* no terminating ';'-sign */
 
     buffer[mid]='\0';
-    sscanf(buffer,"%lu", &upper);
+    sscanf(buffer,"%u", &upper);
     *length = i+1;
     return(upper);
   }
