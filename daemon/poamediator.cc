@@ -454,7 +454,11 @@ POAMediatorImpl::create_server (const char * svid)
   command += " -POARemoteIOR ";
   command += s;
 
-  if (inf.proc != NULL && inf.proc->finished()) {
+  if (inf.proc != NULL
+#ifdef HAVE_THREADS
+      && inf.proc->finished()
+#endif // HAVE_THREADS
+      ) {
     // GCing still allocated previous UnixProcess object which happen
     // on multi-threaded build due to inabiliaty to delete still
     // running thread object in the process callback method

@@ -1328,13 +1328,21 @@ mico_float2ieee (CORBA::Octet ieee[4], CORBA::Float f)
 void
 mico_print_stack_trace()
 {
-    cerr << getpid() << "|" << MICOMT::Thread::self() << ": Stack trace:" << endl;
+    cerr << getpid()
+#ifdef HAVE_THREADS
+         << "|" << MICOMT::Thread::self()
+#endif // HAVE_THREADS
+         << ": Stack trace:" << endl;
     const int max_length = 500;
     void* array[max_length];
     size_t size = backtrace(array, max_length);
     char** strings = backtrace_symbols(array, size);
     for (size_t i = 0; i < size; i++) {
-        cerr << getpid() << "|" << MICOMT::Thread::self() << "        " << strings[i] << endl;
+        cerr << getpid()
+#ifdef HAVE_THREADS
+             << "|" << MICOMT::Thread::self()
+#endif // HAVE_THREADS
+             << "        " << strings[i] << endl;
     }
     free (strings);
 }
@@ -1342,13 +1350,21 @@ mico_print_stack_trace()
 void
 mico_print_stack_trace(ostream& out)
 {
-    out << getpid() << "|" << MICOMT::Thread::self() << ": Stack trace:" << endl;
+    out << getpid()
+#ifdef HAVE_THREADS
+        << "|" << MICOMT::Thread::self()
+#endif // HAVE_THREADS
+        << ": Stack trace:" << endl;
     const int max_length = 500;
     void* array[max_length];
     size_t size = backtrace(array, max_length);
     char** strings = backtrace_symbols(array, size);
     for (size_t i = 0; i < size; i++) {
-        out << getpid() << "|" << MICOMT::Thread::self() << "        " << strings[i] << endl;
+        out << getpid()
+#ifdef HAVE_THREADS
+            << "|" << MICOMT::Thread::self()
+#endif // HAVE_THREADS
+            << "        " << strings[i] << endl;
     }
     free (strings);
 }
@@ -1369,9 +1385,17 @@ mico_print_stack_trace(const char* s)
         }
     }
     if (found == 1) {
-        cerr << getpid() << "|" << MICOMT::Thread::self() << ": Stack trace:" << endl;
+        cerr << getpid()
+#ifdef HAVE_THREADS
+             << "|" << MICOMT::Thread::self()
+#endif // HAVE_THREADS
+             << ": Stack trace:" << endl;
         for (size_t i = 0; i < size; i++) {
-            cerr << getpid() << "|" << MICOMT::Thread::self() << "        " << strings[i] << endl;
+            cerr << getpid()
+#ifdef HAVE_THREADS
+                 << "|" << MICOMT::Thread::self()
+#endif // HAVE_THREADS
+                 << "        " << strings[i] << endl;
         }
     }
     free (strings);

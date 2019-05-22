@@ -1096,8 +1096,8 @@ MICOSSL::SSLTransport::isreadable ()
 CORBA::Long
 MICOSSL::SSLTransport::read (void *_b, CORBA::Long len)
 {
-#ifdef HAVE_THREADS
     int i = -1;
+#ifdef HAVE_THREADS
     // We can't lock while using blocking transport (blocking is used only
     // by thread per connection concurrency model) because it block on read
     // and it can lead to deadlock ie. reader will be faster then writer,

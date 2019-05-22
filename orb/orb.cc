@@ -207,9 +207,11 @@ CORBA::ORBInvokeRec::init_invoke (ORB_ptr orb,
     _cb = callback;
     _cb_async_callback = FALSE;
     if (_cb != NULL) {
+#ifdef HAVE_THREADS
         if (dynamic_cast<ORBAsyncCallback*>(_cb) != NULL) {
             _cb_async_callback = TRUE;
         }
+#endif
     }
     _active = TRUE;
 #ifdef USE_MESSAGING
@@ -273,11 +275,13 @@ CORBA::ORBInvokeRec::init_bind (ORB_ptr orb, const char *repo,
     _adapter = oa;
     _cb = callback;
     _cb_async_callback = FALSE;
+#ifdef HAVE_THREADS
     if (_cb != NULL) {
         if (dynamic_cast<ORBAsyncCallback*>(_cb) != NULL) {
             _cb_async_callback = TRUE;
         }
     }
+#endif
     _objtag = tag;
     _active = TRUE;
 }
@@ -299,11 +303,13 @@ CORBA::ORBInvokeRec::init_locate (ORB_ptr orb, Object_ptr o,
     _adapter = oa;
     _cb = callback;
     _cb_async_callback = FALSE;
+#ifdef HAVE_THREADS
     if (_cb != NULL) {
         if (dynamic_cast<ORBAsyncCallback*>(_cb) != NULL) {
             _cb_async_callback = TRUE;
         }
     }
+#endif
     _active = TRUE;
 }
 

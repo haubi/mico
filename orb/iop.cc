@@ -5953,8 +5953,8 @@ MICO::IIOPServer::handle_invoke_request (GIOPConn *conn, GIOPInContext &in)
     CORBA::Boolean resp;
     CORBA::ORBRequest* req;
     CORBA::Principal_ptr pr = conn->transport()->get_principal();
-#ifdef HAVE_THREADS
     CORBA::Object_ptr obj = CORBA::Object::_nil();
+#ifdef HAVE_THREADS
     if (MICO::MTManager::thread_per_connection()) {
         CORBA::Object_ptr throbj = static_cast<CORBA::Object*>
             (MICOMT::Thread::get_specific(MICO::IIOPServer::target_obj_key_));
@@ -6037,8 +6037,8 @@ MICO::IIOPServer::handle_locate_request (GIOPConn *conn, GIOPInContext &in)
 {
     CORBA::ULong req_id;
     //CORBA::Object_ptr obj = new CORBA::Object (new CORBA::IOR);
-#ifdef HAVE_THREADS
     CORBA::Object_ptr obj = CORBA::Object::_nil();
+#ifdef HAVE_THREADS
     if (MICO::MTManager::thread_per_connection()) {
         CORBA::Object_ptr throbj = static_cast<CORBA::Object*>
             (MICOMT::Thread::get_specific(MICO::IIOPServer::target_obj_key_));
