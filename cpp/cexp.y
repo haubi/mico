@@ -529,7 +529,7 @@ parse_number (olen)
       while (1) {
 	if (c == 'l' || c == 'L')
 	  {
-	    if (!pedantic < spec_long)
+	    if ((!pedantic) < spec_long))
 	      yyerror ("too many `l's in integer constant");
 	    spec_long++;
 	  }
@@ -684,7 +684,7 @@ yylex ()
        It is mostly copied from c-lex.c.  */
     {
       register HOST_WIDE_INT result = 0;
-      register num_chars = 0;
+      register int num_chars = 0;
       unsigned width = MAX_CHAR_TYPE_SIZE;
       int max_chars;
       char *token_buffer;
