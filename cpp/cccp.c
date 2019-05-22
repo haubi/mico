@@ -4079,7 +4079,7 @@ special_symbol (hp, op)
       if (instack[i].fname != NULL)
         true_indepth++;
 
-    buf = (char *) alloca (8);	/* Eight bytes ought to be more than enough */
+    buf = (char *) alloca (11+1);	/* Maximum length for signed datatype */
     sprintf (buf, "%d", true_indepth - 1);
     break;
 
