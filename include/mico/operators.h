@@ -381,6 +381,7 @@ CORBA::Boolean operator>>= (const CORBA::Any &, CORBA::name *&);
 
 // iostream operators for various types
 
+namespace CORBA {
 
 static inline std::ostream &
 operator<< (std::ostream &os, const CORBA::Exception *ex)
@@ -409,6 +410,8 @@ operator>> (std::istream &is, CORBA::String_var &svar)
     is >> s;
     svar = s.c_str();
     return is;
+}
+
 }
 
 #endif // __mico_operators_h__

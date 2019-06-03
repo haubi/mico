@@ -590,12 +590,17 @@ operator!=(MICOMT::Thread::ThreadID first, MICOMT::Thread::ThreadID second)
 	return (first.x != second.x) || (first.p != second.p);
 }
 
+namespace MICOMT {
+
 ostream&
 operator<<(ostream& out, MICOMT::Thread::ThreadID id)
 {
 	out << (void*)id.p << "(" << id.x << ")";
 	return out;
 }
+
+}
+
 #endif // _WIN32 && NEED_THREADID_OPERATORS
 
 #endif // HAVE_THREADS

@@ -9,8 +9,12 @@
 #include <iostream.h>
 #endif
 
+namespace CORBA {
+
 std::ostream& operator<<( std::ostream& out, CORBA::Any& any );
 
 bool printAny( std::ostream& out, CORBA::Any& _any, CORBA::TypeCode_ptr _tc );
+
+}
 
 #endif
