@@ -451,8 +451,12 @@ operator==(MICOMT::Thread::ThreadID first, MICOMT::Thread::ThreadID second);
 bool
 operator!=(MICOMT::Thread::ThreadID first, MICOMT::Thread::ThreadID second);
 
+namespace MICOMT {
+
 std::ostream&
 operator<<(std::ostream& out, MICOMT::Thread::ThreadID id);
+
+}
 
 bool
 operator<(MICOMT::Thread::ThreadID first, MICOMT::Thread::ThreadID second);

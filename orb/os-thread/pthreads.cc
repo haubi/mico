@@ -756,11 +756,15 @@ operator!=(MICOMT::Thread::ThreadID first, MICOMT::Thread::ThreadID second)
 	return (first.p != second.p);
 }
 
+namespace MICOMT {
+
 ostream&
 operator<<(ostream& out, MICOMT::Thread::ThreadID id)
 {
 	out << (void*)id.p << "(" << id.x << ")";
 	return out;
+}
+
 }
 
 bool
