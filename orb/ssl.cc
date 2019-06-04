@@ -106,13 +106,31 @@ extern "C" {
     typedef int (*ssl_int_t) ();
 }
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
+void BIO_set_init    (BIO *b, int   init)     { b->init     = init;     }
+void BIO_set_num     (BIO *b, int   num)      { b->num      = num;      }
+void BIO_set_data    (BIO *b, void *ptr)      { b->ptr      = ptr;      }
+void BIO_set_flags   (BIO *b, int   flags)    { b->flags    = flags;    }
+void BIO_set_shutdown(BIO *b, int   shutdown) { b->shutdown = shutdown; }
+
+int   BIO_get_init    (BIO *b) { return b->init;     }
+void *BIO_get_data    (BIO *b) { return b->ptr;      }
+int   BIO_get_shutdown(BIO *b) { return b->shutdown; }
+
+#else // OPENSSL_VERSION_NUMBER >= 0x10100000L
+
+#  define BIO_set_num(b, num) /* noop */
+
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L
+
 static int
 mico_bio_new (BIO *b)
 {
-    b->init = 0;
-    b->num = 0;
-    b->ptr = 0;
-    b->flags = 0;
+    BIO_set_init(b, 0);
+    BIO_set_num(b, 0);
+    BIO_set_data(b, 0);
+    BIO_set_flags(b, 0);
     return 1;
 }
 
@@ -121,14 +139,14 @@ mico_bio_free (BIO *b)
 {
     if (!b)
 	return 0;
-    if (b->shutdown) {
-	if (b->init) {
-	    CORBA::Transport *t = (CORBA::Transport *)b->ptr;	
+    if (BIO_get_shutdown(b)) {
+	if (BIO_get_init(b)) {
+	    CORBA::Transport *t = (CORBA::Transport *)BIO_get_data(b);
 	    assert (t);
 	    t->close ();
 	}
-	b->init = 0;
-	b->flags = 0;
+	BIO_set_init(b, 0);
+	BIO_set_flags(b, 0);
     }
     return 1;
 }
@@ -138,7 +156,7 @@ mico_bio_read (BIO *b, char *out, int len)
 {
     int ret = 0;
     if (out) {
-	CORBA::Transport *t = (CORBA::Transport *)b->ptr;
+	CORBA::Transport *t = (CORBA::Transport *)BIO_get_data(b);
 	assert (t);
 	ret = t->read (out, len);
 	BIO_clear_retry_flags (b);
@@ -155,7 +173,7 @@ mico_bio_write (BIO *b, const char *in, int len)
 {
     int ret;
 
-    CORBA::Transport *t = (CORBA::Transport *)b->ptr;
+    CORBA::Transport *t = (CORBA::Transport *)BIO_get_data(b);
     assert (t);
 
     ret = t->write (in, len);
@@ -189,29 +207,29 @@ mico_bio_ctrl (BIO *b, int cmd, long num, void *ptr)
 	break;
 
     case BIO_CTRL_SET:
-	b->ptr = ptr;
-	b->num = 0;
-	b->shutdown = (int)num;
-	b->init = 1;
+	BIO_set_data(b, ptr);
+	BIO_set_num(b, 0);
+	BIO_set_shutdown(b, (int)num);
+	BIO_set_init(b, 1);
 	break;
 
     case BIO_CTRL_GET:
-	if (b->init) {
+	if (BIO_get_init(b)) {
 	    if (!ptr)
 		ret = 0;
 	    else
-		*(char **)ptr = (char *)b->ptr;
+		*(char **)ptr = (char *)BIO_get_data(b);
 	} else {
 	    ret = -1;
 	}
 	break;
 
     case BIO_CTRL_GET_CLOSE:
-	ret = b->shutdown;
+	ret = BIO_get_shutdown(b);
 	break;
 
     case BIO_CTRL_SET_CLOSE:
-	b->shutdown = (int)num;
+	BIO_set_shutdown(b, (int)num);
 	break;
 
     case BIO_CTRL_PENDING:
@@ -230,6 +248,7 @@ mico_bio_ctrl (BIO *b, int cmd, long num, void *ptr)
     return ret;
 }
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 static BIO_METHOD mico_bio_methods = {
     BIO_TYPE_MEM, "mico_bio",
@@ -242,10 +261,42 @@ static BIO_METHOD mico_bio_methods = {
     (int (*)(BIO*))mico_bio_free
 };
 
-static BIO_METHOD *BIO_mico ()
+BIO_METHOD *MICOSSL::SSLTransport::BIO_mico ()
 {
     return &mico_bio_methods;
 }
+
+#else // OPENSSL_VERSION_NUMBER >= 0x10100000L
+
+BIO_METHOD *MICOSSL::SSLTransport::BIO_mico ()
+{
+    static BIO_METHOD *mico_bio_methods = NULL;
+    if (mico_bio_methods != NULL)
+	return mico_bio_methods;
+
+    BIO_METHOD *biom = BIO_meth_new(BIO_TYPE_MEM, "mico_bio");
+    assert (biom);
+
+    assert (BIO_meth_set_write (biom, mico_bio_write));
+    assert (BIO_meth_set_read (biom, mico_bio_read));
+    assert (BIO_meth_set_puts (biom, mico_bio_puts));
+    assert (BIO_meth_set_gets (biom, NULL));
+    assert (BIO_meth_set_ctrl (biom, mico_bio_ctrl));
+    assert (BIO_meth_set_create (biom, mico_bio_new));
+    assert (BIO_meth_set_destroy (biom, mico_bio_free));
+
+#ifdef HAVE_THREADS
+    MICOMT::AutoLock lock(_ssl_mutex);
+    if (mico_bio_methods != NULL) {
+	BIO_meth_free (biom);
+	return mico_bio_methods;
+    }
+#endif
+    mico_bio_methods = biom;
+    return mico_bio_methods;
+}
+
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L
 
 //
 // OpenSSL locking primitives

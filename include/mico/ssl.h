@@ -238,6 +238,8 @@ class SSLTransport : public MICO::SocketTransport,
     static int _ssl_verify_depth;
     static int ssl_verify_callback (int ok, X509_STORE_CTX *);
 
+    BIO_METHOD * BIO_mico ();
+
     void callback (CORBA::Transport *, CORBA::TransportCallback::Event);
 public:
     SSLTransport (const SSLAddress *, CORBA::Transport * = 0);
