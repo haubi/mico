@@ -3639,7 +3639,7 @@ yyreduce:
   case 251:
 #line 1792 "yacc.yy"
     {
-	    yyval.node = new ParseNode( string_literals );
+	    yyval.node = new ParseNode( ::string_literals );
 	    yyval.node->setIdent( yyvsp[0]._str );
 	  }
     break;
@@ -3647,7 +3647,7 @@ yyreduce:
   case 252:
 #line 1797 "yacc.yy"
     {
-	    yyval.node = new ParseNode( string_literals, yyvsp[0].node );
+	    yyval.node = new ParseNode( ::string_literals, yyvsp[0].node );
 	    yyval.node->setIdent( yyvsp[-2]._str );
 	  }
     break;
@@ -3774,7 +3774,7 @@ yyreduce:
   case 267:
 #line 1919 "yacc.yy"
     {
-	    yyval.node = new ParseNode (string_literals);
+	    yyval.node = new ParseNode (::string_literals);
 	    yyval.node->setIdent (yyvsp[0]._str);
 	  }
     break;
