@@ -63,26 +63,26 @@ else
 lib: .depend $(STATIC_OBJS)
 endif
 
-prg: .depend extnoded extcontainmentd extreferenced streamd extcriteriad
+prg: .depend extnoded$(EXEEXT) extcontainmentd$(EXEEXT) extreferenced$(EXEEXT) streamd$(EXEEXT) extcriteriad$(EXEEXT)
 
-streamd: streamd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) streamd.o $(LDLIBS) -o streamd
+streamd$(EXEEXT): streamd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) streamd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-extnoded: extnoded.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) extnoded.o $(LDLIBS) -o extnoded
+extnoded$(EXEEXT): extnoded.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) extnoded.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-extcriteriad: extcriteriad.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) extcriteriad.o $(LDLIBS) -o extcriteriad
+extcriteriad$(EXEEXT): extcriteriad.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) extcriteriad.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-extcontainmentd: extcontainmentd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) extcontainmentd.o $(LDLIBS) -o extcontainmentd
+extcontainmentd$(EXEEXT): extcontainmentd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) extcontainmentd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-extreferenced: extreferenced.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) extreferenced.o $(LDLIBS) -o extreferenced
+extreferenced$(EXEEXT): extreferenced.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) extreferenced.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 idlcompile: CosExternalization.cc CosExternalizationContainment.cc CosExternalizationReference.cc
@@ -109,7 +109,7 @@ CosExternalizationReference.h CosExternalizationReference.cc: \
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.objid extnoded extcontainmentd extreferenced streamd extcriteriad
+	-$(RM) *.o *.a *~ *.rpo *.objid extnoded$(EXEEXT) extcontainmentd$(EXEEXT) extreferenced$(EXEEXT) streamd$(EXEEXT) extcriteriad$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosExternalization.h CosExternalization.cc
 	-$(RM) ../../include/coss/CosExternalization.h
@@ -120,15 +120,15 @@ clean:
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) streamd $(INSTDIR)/bin
+	$(IBINCMD) streamd$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) extnoded $(INSTDIR)/bin
+	$(IBINCMD) extnoded$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) extcontainmentd $(INSTDIR)/bin
+	$(IBINCMD) extcontainmentd$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) extreferenced $(INSTDIR)/bin
+	$(IBINCMD) extreferenced$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) extcriteriad $(INSTDIR)/bin
+	$(IBINCMD) extcriteriad$(EXEEXT) $(INSTDIR)/bin
 
 
 ifeq (.depend, $(wildcard .depend))

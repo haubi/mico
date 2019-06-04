@@ -40,24 +40,24 @@ OBJS=cexp.o cccp.o config.o alloca.o
 
 all: lib prg
 
-prg: .depend mico-cpp
+prg: .depend mico-cpp$(EXEEXT)
 
 lib: .depend
 
-mico-cpp: $(OBJS)
+mico-cpp$(EXEEXT): $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo mico-cpp
+	-$(RM) *.o *.a *~ *.rpo mico-cpp$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out $(GENERATED)
 
 
 install: all
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) mico-cpp $(INSTDIR)/bin
+	$(IBINCMD) mico-cpp$(EXEEXT) $(INSTDIR)/bin
 
 install-cd: install
 

@@ -71,34 +71,34 @@ else
 lib: .depend $(STATIC_OBJS)
 endif
 
-prg: .depend lifenoded lifecontainmentd lifereferenced operationd lifecriteriad factoryfinderd genericfactory
+prg: .depend lifenoded$(EXEEXT) lifecontainmentd$(EXEEXT) lifereferenced$(EXEEXT) operationd$(EXEEXT) lifecriteriad$(EXEEXT) factoryfinderd$(EXEEXT) genericfactory$(EXEEXT)
 
-operationd: operationd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) operationd.o $(LDLIBS) -o operationd
+operationd$(EXEEXT): operationd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) operationd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-lifenoded: lifenoded.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifenoded.o $(LDLIBS) -o lifenoded
+lifenoded$(EXEEXT): lifenoded.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifenoded.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-lifecontainmentd: lifecontainmentd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifecontainmentd.o $(LDLIBS) -o lifecontainmentd
+lifecontainmentd$(EXEEXT): lifecontainmentd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifecontainmentd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-lifereferenced: lifereferenced.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifereferenced.o  $(LDLIBS) -o lifereferenced
+lifereferenced$(EXEEXT): lifereferenced.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifereferenced.o  $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-lifecriteriad: lifecriteriad.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifecriteriad.o $(LDLIBS) -o lifecriteriad
+lifecriteriad$(EXEEXT): lifecriteriad.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) lifecriteriad.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-factoryfinderd: factoryfinderd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) factoryfinderd.o $(LDLIBS) -o factoryfinderd
+factoryfinderd$(EXEEXT): factoryfinderd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) factoryfinderd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-genericfactory: genericfactory.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) genericfactory.o $(LDLIBS) -o genericfactory
+genericfactory$(EXEEXT): genericfactory.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) genericfactory.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 idlcompile: CosLifeCycle.cc CosCompoundLifeCycle.cc CosLifeCycleContainment.cc CosLifeCycleReference.cc
@@ -131,7 +131,7 @@ CosLifeCycleReference.h CosLifeCycleReference.cc: \
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.objid lifenoded lifecontainmentd lifereferenced operationd lifecriteriad factoryfinderd genericfactory
+	-$(RM) *.o *.a *~ *.rpo *.objid lifenoded$(EXEEXT) lifecontainmentd$(EXEEXT) lifereferenced$(EXEEXT) operationd$(EXEEXT) lifecriteriad$(EXEEXT) factoryfinderd$(EXEEXT) genericfactory$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosLifeCycle.h CosLifeCycle.cc
 	-$(RM) ../../include/coss/CosLifeCycle.h
@@ -144,13 +144,13 @@ clean:
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) operationd $(INSTDIR)/bin
+	$(IBINCMD) operationd$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) lifenoded $(INSTDIR)/bin
+	$(IBINCMD) lifenoded$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) lifecontainmentd $(INSTDIR)/bin
+	$(IBINCMD) lifecontainmentd$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) lifereferenced $(INSTDIR)/bin
+	$(IBINCMD) lifereferenced$(EXEEXT) $(INSTDIR)/bin
 
 
 ifeq (.depend, $(wildcard .depend))

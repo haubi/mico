@@ -52,12 +52,12 @@ else
 lib:
 endif
 
-prg: .depend propertyd
+prg: .depend propertyd$(EXEEXT)
 
 idlcompile: PropertyService.cc
 
-propertyd: $(SRV_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o propertyd
+propertyd$(EXEEXT): $(SRV_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 PropertyService.h PropertyService.cc: ../../include/coss/PropertyService.idl $(IDL)
@@ -72,11 +72,11 @@ clean:
 	-$(RM) *.o *.a *~ *.rpo *.objid
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) PropertyService.h PropertyService.cc ../../include/coss/PropertyService.h
-	-$(RM) propertyd
+	-$(RM) propertyd$(EXEEXT)
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) propertyd $(INSTDIR)/bin
+	$(IBINCMD) propertyd$(EXEEXT) $(INSTDIR)/bin
 
 ifeq (.depend, $(wildcard .depend))
 include .depend

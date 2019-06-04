@@ -56,7 +56,7 @@ endif
 
 all: lib prg
 
-prg: .depend idl
+prg: .depend idl$(EXEEXT)
 
 lib: .depend libidl.a $(OBJS)
 
@@ -71,8 +71,8 @@ endif
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 	$(RANLIB) $@
 
-idl: libidl.a main.o ../orb/$(LIBMICO) ../ir/$(LIBMICOIR) $(IR_OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o $(IR_OBJS) $(LDLIBS) libidl.a -o idl
+idl$(EXEEXT): libidl.a main.o ../orb/$(LIBMICO) ../ir/$(LIBMICOIR) $(IR_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o $(IR_OBJS) $(LDLIBS) libidl.a -o $@
 	$(POSTLD) $@
 
 main.o:
@@ -80,14 +80,14 @@ main.o:
 # cleaning
 
 clean:
-	-$(RM) idl idl.install
-	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid
+	-$(RM) idl$(EXEEXT) idl.install
+	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid *.dll *.pdb *.exp
 	-$(RM) .depend TAGS core nohup.out $(GENERATED)
 
 
 install: all
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) idl $(INSTDIR)/bin
+	$(IBINCMD) idl$(EXEEXT) $(INSTDIR)/bin
 
 install-cd: install
 

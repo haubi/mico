@@ -38,13 +38,13 @@ IMRCLOBJS=imr_client.o
 
 all: prg
 
-prg: .depend micod imr
+prg: .depend micod$(EXEEXT) imr$(EXEEXT)
 
-micod: $(MICODOBJS) ../orb/$(LIBMICO)
+micod$(EXEEXT): $(MICODOBJS) ../orb/$(LIBMICO)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(MICODOBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-imr: $(IMRCLOBJS) ../orb/$(LIBMICO)
+imr$(EXEEXT): $(IMRCLOBJS) ../orb/$(LIBMICO)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(IMRCLOBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
@@ -75,15 +75,15 @@ diffs:
 # cleaning
 
 clean:
-	-$(RM) micod imr
-	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid
+	-$(RM) micod$(EXEEXT) imr$(EXEEXT)
+	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid *.dll *.pdb *.exp
 	-$(RM) .depend TAGS core nohup.out
 
 
 install: all
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) micod $(INSTDIR)/bin
-	$(IBINCMD) imr $(INSTDIR)/bin
+	$(IBINCMD) micod$(EXEEXT) $(INSTDIR)/bin
+	$(IBINCMD) imr$(EXEEXT) $(INSTDIR)/bin
 
 install-cd: install
 

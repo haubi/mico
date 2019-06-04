@@ -21,15 +21,15 @@ include ../../MakeVars
 TARGETS =
 
 ifeq ($(USE_WIRELESS_HOME), yes)
-TARGETS := $(TARGETS) hla
+TARGETS := $(TARGETS) hla$(EXEEXT)
 endif
 
 ifeq ($(USE_WIRELESS_TERMINAL), yes)
-TARGETS := $(TARGETS) tadmin tb
+TARGETS := $(TARGETS) tadmin$(EXEEXT) tb$(EXEEXT)
 endif
 
 ifeq ($(USE_WIRELESS_ACCESS), yes)
-TARGETS := $(TARGETS) callback nadmin ab
+TARGETS := $(TARGETS) callback$(EXEEXT) nadmin$(EXEEXT) ab$(EXEEXT)
 endif
 
 LDLIBS    = $(LDMICOCOSS) $(LDMICO) $(CONFLIBS)
@@ -65,28 +65,28 @@ prg: .depend $(TARGETS)
 
 idlcompile: MobileTerminal.cc GTP.cc MobileTerminalNotification.cc
 
-hla: $(HLA_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(HLA_OBJS) $(LDLIBS) -o hla
+hla$(EXEEXT): $(HLA_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(HLA_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-tb: $(TB_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TB_OBJS) $(LDLIBS) -o tb
+tb$(EXEEXT): $(TB_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TB_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-ab: $(AB_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(AB_OBJS) $(LDLIBS) -o ab
+ab$(EXEEXT): $(AB_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(AB_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-callback: $(CB_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(CB_OBJS) $(LDLIBS) -o callback
+callback$(EXEEXT): $(CB_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(CB_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-tadmin: $(TAD_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TAD_OBJS) $(LDLIBS) -o tadmin
+tadmin$(EXEEXT): $(TAD_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TAD_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-nadmin: $(NAD_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(NAD_OBJS) $(LDLIBS) -o nadmin
+nadmin$(EXEEXT): $(NAD_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(NAD_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 MobileTerminal.cc MobileTerminal.h: \

@@ -127,6 +127,7 @@ endif
 		-L../libs $(LDMICO)
 	$(IDIRCMD) ../libs
 	cd ../libs; rm -f $@; $(LN) ../auxdir/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../auxdir/$@.dll . )
 
 libmicox$(VERSION).$(SOEXT): $(SHARED_X11_OBJS)
 ifeq ($(HAVE_REPO), yes)
@@ -137,6 +138,7 @@ endif
 		$(PURE_LDFLAGS) -lXt -lX11 -L../libs $(LDMICO) $(PLATFORM_LIBS)
 	$(IDIRCMD) ../libs
 	cd ../libs; rm -f $@; $(LN) ../auxdir/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../auxdir/$@.dll . )
 
 libmicoqt$(VERSION).$(SOEXT): $(SHARED_QT_OBJS)
 ifeq ($(HAVE_REPO), yes)
@@ -147,6 +149,7 @@ endif
 		$(PURE_LDFLAGS) $(QT_LIBS) -L../libs $(LDMICO)
 	$(IDIRCMD) ../libs
 	cd ../libs; rm -f $@; $(LN) ../auxdir/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../auxdir/$@.dll . )
 
 libmicogtk$(VERSION).$(SOEXT): $(SHARED_GTK_OBJS)
 ifeq ($(HAVE_REPO), yes)
@@ -157,6 +160,7 @@ endif
 		$(PURE_LDFLAGS) $(GTK_LIBS) -L../libs $(LDMICO)
 	$(IDIRCMD) ../libs
 	cd ../libs; rm -f $@; $(LN) ../auxdir/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../auxdir/$@.dll . )
 
 libmicotcl$(VERSION).$(SOEXT): $(SHARED_TCL_OBJS)
 ifeq ($(HAVE_REPO), yes)
@@ -167,6 +171,7 @@ endif
 		$(PURE_LDFLAGS) $(TCL_LIBS) -L../libs $(LDMICO)
 	$(IDIRCMD) ../libs
 	cd ../libs; rm -f $@; $(LN) ../auxdir/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../auxdir/$@.dll . )
 
 
 # static
@@ -220,14 +225,14 @@ endif
 # cleaning
 
 clean:
-	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid *.moc
+	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid *.moc *.dll *.pdb *.exp
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) *.orig
 
 install:
 	$(IDIRCMD) $(INSTDIR)/lib
 ifeq ($(HAVE_SHARED), yes)
-	@for i in $(SHARED_LIBS); do $(ILIBCMD) $$i $(INSTDIR)/lib; done
+	@for i in $(SHARED_LIBS); do $(ILIBCMD) $$i $(INSTDIR)/lib; test ! -f $$i.dll || $(ILIBCMD) $$i.dll $(INSTDIR)/lib; done
 endif
 ifeq ($(HAVE_STATIC), yes)
 	@for i in $(STATIC_LIBS); do $(ILIBCMD) $$i $(INSTDIR)/lib; done

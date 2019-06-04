@@ -375,11 +375,15 @@ AC_LANG_CPLUSPLUS
 AC_MSG_CHECKING(OS Type)
 gxxversion=`$CXX -v 2>&1`
 case $gxxversion in
-*mingw*special*)
+*mingw*special*|*parity*)
 	#
-	# This is the MinGW compiler in a Cygwin environment
+	# This is the MinGW compiler in a Cygwin environment,
+	# or the parity compiler in an interix environment
 	#
 	OSTYPE=windows
+	case $gxxversion in
+	*parity*) SUBOSTYPE=parity ;;
+	esac
 	RMPROG="rm -f"
 	LNPROG="cp"
 	;;
@@ -389,8 +393,9 @@ case $gxxversion in
 	LNPROG="ln -f -s"
 	;;
 esac
-AC_MSG_RESULT($OSTYPE)
+AC_MSG_RESULT([$OSTYPE ($SUBOSTYPE)])
 AC_SUBST(OSTYPE)
+AC_SUBST(SUBOSTYPE)
 AC_SUBST(RMPROG)
 AC_SUBST(LNPROG)
 

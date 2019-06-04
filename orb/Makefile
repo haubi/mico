@@ -207,10 +207,23 @@ all: lib prg
 prg:
 
 ifeq ($(OSTYPE), windows)
+ifneq ($(SUBOSTYPE), parity)
 ifeq ($(HAVE_SHARED), yes)
 lib: .depend libmico$(VERSION).a mico$(NODOTVERSION).dll
 else
 lib: .depend libmico$(VERSION).a
+endif
+else
+ifeq ($(HAVE_SHARED), yes)
+ifeq ($(HAVE_STATIC), yes)
+lib: .depend libmico$(VERSION).$(SOEXT) libmico$(VERSION).a
+else
+lib: .depend libmico$(VERSION).$(SOEXT)
+endif
+else
+lib: .depend libmico$(VERSION).a
+endif
+
 endif
 
 else
@@ -252,6 +265,10 @@ endif
 	$(LDSO) -o libmico$(VERSION) $(SHARED_OBJS) $(PLATFORM_LIBS)
 	$(IDIRCMD) ../libs
 	cd ../libs; $(RM) $@; $(LN) ../orb/$@ .
+	if test -f $@.dll; then \
+		cd ../libs; $(RM) $@.dll; $(LN) ../orb/$@.dll .; \
+	fi
+
 endif
 
 # static
@@ -412,7 +429,7 @@ diffs:
 	$(RM) -r orig
 
 clean:
-	$(RM) *.rpo *.ii *.ti *.a *.o *~ *.$(SOEXT) *.exe .depend
+	$(RM) *.rpo *.ii *.ti *.a *.o *~ *.$(SOEXT) *.exe .depend *.dll *.pdb *.exp
 	(cd transport; $(RM) *.rpo *.ii *.ti *.a *.o *~ .depend)
 	(cd os-thread; $(RM) *.rpo *.ii *.ti *.a *.o *~ .depend)
 	(cd security; $(RM) *.rpo *.ii *.ti *.a *.o *~ .depend)
@@ -425,6 +442,7 @@ ifeq ($(HAVE_STATIC), yes)
 endif
 ifeq ($(HAVE_SHARED), yes)
 	$(ILIBCMD) libmico$(VERSION).$(SOEXT) $(INSTDIR)/lib
+	test ! -f libmico$(VERSION).$(SOEXT).dll || $(ILIBCMD) libmico$(VERSION).$(SOEXT).dll $(INSTDIR)/lib
 endif
 
 install-cd: install

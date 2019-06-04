@@ -34,15 +34,15 @@ OBJS = ${SRCS:.cc=.o}
 
 # normal rules
 
-all: .depend iordump
+all: .depend iordump$(EXEEXT)
 
-iordump: $(OBJS) ../../orb/$(LIBMICO)
+iordump$(EXEEXT): $(OBJS) ../../orb/$(LIBMICO)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -L../../idl $(OBJS) -lidl $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) iordump $(INSTDIR)/bin
+	$(IBINCMD) iordump$(EXEEXT) $(INSTDIR)/bin
 
 # cleaning
 

@@ -49,9 +49,11 @@ SHARED_OBJS=$(STATIC_OBJS:.o=.pic.o)
 # mingw hack
 
 ifeq ($(OSTYPE), windows)
+ifneq ($(SUBOSTYPE), parity)
 ifeq ($(HAVE_SHARED), yes)
 HAVE_SHARED := no
 HAVE_STATIC := yes
+endif
 endif
 endif
 
@@ -65,15 +67,15 @@ ifeq ($(HAVE_SHARED), yes)
 LIBMICOCCM := libmicoccm$(VERSION).$(SOEXT)
 ifeq ($(HAVE_STATIC), yes)
 prg: .depend libmicoccm$(VERSION).$(SOEXT) libmicoccm$(VERSION).a \
-	mico-ccm componentserver mico-ccmd ccmload
+	mico-ccm$(EXEEXT) componentserver$(EXEEXT) mico-ccmd$(EXEEXT) ccmload$(EXEEXT)
 else
 prg: .depend libmicoccm$(VERSION).$(SOEXT) \
-	mico-ccm componentserver mico-ccmd ccmload
+	mico-ccm$(EXEEXT) componentserver$(EXEEXT) mico-ccmd$(EXEEXT) ccmload$(EXEEXT)
 endif
 else
 LIBMICOCCM := libmicoccm$(VERSION).a
 prg: .depend libmicoccm$(VERSION).a \
-	mico-ccm componentserver mico-ccmd ccmload
+	mico-ccm$(EXEEXT) componentserver$(EXEEXT) mico-ccmd$(EXEEXT) ccmload$(EXEEXT)
 endif
 else
 all:
@@ -81,17 +83,17 @@ lib:
 prg:
 endif
 
-mico-ccm: ../idl/libidl.a ../orb/$(LIBMICO) ../ir/$(LIBMICOIR) $(LIBMICOCCM) mico-ccm.o
+mico-ccm$(EXEEXT): ../idl/libidl.a ../orb/$(LIBMICO) ../ir/$(LIBMICOIR) $(LIBMICOCCM) mico-ccm.o
 	$(CXX) -o $@ $(LDFLAGS) mico-ccm.o -L. $(LDMICOCCM) $(LDMICOIR) $(LDLIBS)
 	$(POSTLD) $@
 
-componentserver: ../orb/$(LIBMICO) $(LIBMICOCCM) componentserver.o
+componentserver$(EXEEXT): ../orb/$(LIBMICO) $(LIBMICOCCM) componentserver.o
 	$(CXX) -o $@ $(LDFLAGS) componentserver.o -L. $(LDMICOCCM) $(LDLIBS)
 
-mico-ccmd: ../orb/$(LIBMICO) $(LIBMICOCCM) mico-ccmd.o
+mico-ccmd$(EXEEXT): ../orb/$(LIBMICO) $(LIBMICOCCM) mico-ccmd.o
 	$(CXX) -o $@ $(LDFLAGS) mico-ccmd.o -L. $(LDMICOCCM) $(LDLIBS)
 
-ccmload: ../orb/$(LIBMICO) $(LIBMICOCCM) ccmload.o
+ccmload$(EXEEXT): ../orb/$(LIBMICO) $(LIBMICOCCM) ccmload.o
 	$(CXX) -o $@ $(LDFLAGS) ccmload.o -L. $(LDMICOCCM) $(LDMICOCOSS) $(LDLIBS)
 
 libmicoccm$(VERSION).$(SOEXT): $(SHARED_OBJS)
@@ -105,6 +107,7 @@ endif
 	$(LDSO) -o libmicoccm$(VERSION) $(SHARED_OBJS) -L../libs $(LDMICO) $(PLATFORM_LIBS)
 	$(IDIRCMD) ../libs
 	cd ../libs; $(RM) $@; $(LN) ../ccm/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../ccm/$@.dll . )
 
 libmicoccm$(VERSION).a: $(STATIC_OBJS)
 ifeq ($(HAVE_REPO), yes)
@@ -121,22 +124,23 @@ endif
 # cleaning
 
 clean:
-	-$(RM) mico-ccmd ccmload componentserver mico-ccm libmicoccm*
-	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid
+	-$(RM) mico-ccmd$(EXEEXT) ccmload$(EXEEXT) componentserver$(EXEEXT) mico-ccm$(EXEEXT) libmicoccm*
+	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid *.dll *.pdb *.exp
 	-$(RM) .depend TAGS core nohup.out
 
 install: all
 ifeq ($(USE_CCM), yes)
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) mico-ccm $(INSTDIR)/bin
-	$(IBINCMD) componentserver $(INSTDIR)/bin
-	$(IBINCMD) mico-ccmd $(INSTDIR)/bin
-	$(IBINCMD) ccmload $(INSTDIR)/bin
+	$(IBINCMD) mico-ccm$(EXEEXT) $(INSTDIR)/bin
+	$(IBINCMD) componentserver$(EXEEXT) $(INSTDIR)/bin
+	$(IBINCMD) mico-ccmd$(EXEEXT) $(INSTDIR)/bin
+	$(IBINCMD) ccmload$(EXEEXT) $(INSTDIR)/bin
 ifeq ($(HAVE_STATIC), yes)
 	$(ILIBCMD) libmicoccm$(VERSION).a $(INSTDIR)/lib
 endif
 ifeq ($(HAVE_SHARED), yes)
 	$(ILIBCMD) libmicoccm$(VERSION).$(SOEXT) $(INSTDIR)/lib
+	test -t libmicoccm$(VERSION).$(SOEXT).dll && $(ILIBCMD) libmicoccm$(VERSION).$(SOEXT).dll $(INSTDIR)/lib
 endif
 endif
 

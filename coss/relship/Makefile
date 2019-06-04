@@ -70,32 +70,32 @@ else
 lib:
 endif
 
-prg: .depend traversald noded containmentd referenced randomd proxyd
+prg: .depend traversald$(EXEEXT) noded$(EXEEXT) containmentd$(EXEEXT) referenced$(EXEEXT) randomd$(EXEEXT) proxyd$(EXEEXT)
 
 idlcompile: $(OMG_SRCS) $(EXT_SRCS)
 
-traversald: traversald.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) traversald.o $(LDLIBS) -o traversald
+traversald$(EXEEXT): traversald.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) traversald.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-noded: noded.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) noded.o $(LDLIBS) -o noded
+noded$(EXEEXT): noded.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) noded.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-containmentd: containmentd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) containmentd.o $(LDLIBS) -o containmentd
+containmentd$(EXEEXT): containmentd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) containmentd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-referenced: referenced.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) referenced.o $(LDLIBS) -o referenced
+referenced$(EXEEXT): referenced.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) referenced.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-randomd: randomd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) randomd.o $(LDLIBS) -o randomd
+randomd$(EXEEXT): randomd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) randomd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-proxyd: proxyd.o ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) proxyd.o $(LDLIBS) -o proxyd
+proxyd$(EXEEXT): proxyd.o ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) proxyd.o $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 CosObjectIdentity.h CosObjectIdentity.cc: \
@@ -150,7 +150,7 @@ random.h random.cc: \
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.objid traversald noded containmentd referenced randomd proxyd
+	-$(RM) *.o *.a *~ *.rpo *.objid traversald$(EXEEXT) noded$(EXEEXT) containmentd$(EXEEXT) referenced$(EXEEXT) randomd$(EXEEXT) proxyd$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosObjectIdentity.h CosObjectIdentity.cc
 	-$(RM) ../../include/coss/CosObjectIdentity.h
@@ -171,17 +171,17 @@ clean:
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) traversald $(INSTDIR)/bin
+	$(IBINCMD) traversald$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) noded $(INSTDIR)/bin
+	$(IBINCMD) noded$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) containmentd $(INSTDIR)/bin
+	$(IBINCMD) containmentd$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) referenced $(INSTDIR)/bin
+	$(IBINCMD) referenced$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) randomd $(INSTDIR)/bin
+	$(IBINCMD) randomd$(EXEEXT) $(INSTDIR)/bin
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) proxyd $(INSTDIR)/bin
+	$(IBINCMD) proxyd$(EXEEXT) $(INSTDIR)/bin
 
 
 ifeq (.depend, $(wildcard .depend))

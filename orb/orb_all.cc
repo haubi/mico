@@ -26,7 +26,11 @@
 #include "codeset.cc"
 #include "queue.cc"
 #include "static.cc"
+#ifndef _WIN32
 #include "os-unix.cc"
+#else
+#include "os-windows.cc"
+#endif
 #include "ssl.cc"
 #include "current.cc"
 #include "valuetype.cc"

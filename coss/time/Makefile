@@ -50,12 +50,12 @@ else
 lib:
 endif
 
-prg: .depend timed
+prg: .depend timed$(EXEEXT)
 
 idlcompile: CosTime.cc
 
-timed: $(SRV_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o timed
+timed$(EXEEXT): $(SRV_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 CosTime.h CosTime.cc: ../../include/coss/CosTime.idl $(IDL)
@@ -74,14 +74,14 @@ generate:
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.objid timed
+	-$(RM) *.o *.a *~ *.rpo *.objid timed$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosTime.h CosTime.cc
 	-$(RM) ../../include/coss/CosTime.h
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) timed $(INSTDIR)/bin
+	$(IBINCMD) timed$(EXEEXT) $(INSTDIR)/bin
 
 ifeq (.depend, $(wildcard .depend))
 include .depend

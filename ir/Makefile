@@ -57,9 +57,11 @@ SHARED_OBJS=$(STATIC_OBJS:.o=.pic.o)
 # mingw hack
 
 ifeq ($(OSTYPE), windows)
+ifneq ($(SUBOSTYPE), parity)
 ifeq ($(HAVE_SHARED), yes)
 HAVE_SHARED := no
 HAVE_STATIC := yes
+endif
 endif
 endif
 
@@ -67,7 +69,7 @@ endif
 
 all: lib prg
 
-prg: ird
+prg: ird$(EXEEXT)
 
 ifeq ($(HAVE_SHARED), yes)
 ifeq ($(HAVE_STATIC), yes)
@@ -79,8 +81,8 @@ else
 lib: .depend libmicoir$(VERSION).a
 endif
 
-ird: main.o ../idl/libidl.a ../orb/$(LIBMICO) $(LIBMICOIR)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o -L. $(LDLIBS) ../idl/libidl.a -o ird
+ird$(EXEEXT): main.o ../idl/libidl.a ../orb/$(LIBMICO) $(LIBMICOIR)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) main.o -L. $(LDLIBS) ../idl/libidl.a -o $@
 	$(POSTLD) $@
 
 libmicoir$(VERSION).$(SOEXT): $(SHARED_OBJS)
@@ -96,6 +98,7 @@ endif
 	$(LDSO) -o libmicoir$(VERSION) $(SHARED_OBJS) -L../libs $(LDMICO) $(PLATFORM_LIBS)
 	$(IDIRCMD) ../libs
 	cd ../libs; $(RM) $@; $(LN) ../ir/$@ .
+	test ! -f $@.dll || ( cd ../libs; $(RM) $@.dll; $(LN) ../ir/$@.dll . )
 
 libmicoir$(VERSION).a: $(STATIC_OBJS)
 ifeq ($(HAVE_REPO), yes)
@@ -155,18 +158,19 @@ diffs:
 # cleaning
 
 clean:
-	-$(RM) libs libmicoir* ird
-	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid
+	-$(RM) libs libmicoir* ird$(EXEEXT)
+	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.ii *.ti *.objid *.dll *.pdb *.exp
 	-$(RM) .depend TAGS core nohup.out
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) ird $(INSTDIR)/bin
+	$(IBINCMD) ird$(EXEEXT) $(INSTDIR)/bin
 ifeq ($(HAVE_STATIC), yes)
 	$(ILIBCMD) libmicoir$(VERSION).a $(INSTDIR)/lib
 endif
 ifeq ($(HAVE_SHARED), yes)
 	$(ILIBCMD) libmicoir$(VERSION).$(SOEXT) $(INSTDIR)/lib
+	test ! -f libmicoir$(VERSION).$(SOEXT).dll || $(ILIBCMD) libmicoir$(VERSION).$(SOEXT).dll $(INSTDIR)/lib
 endif
 
 install-cd: install

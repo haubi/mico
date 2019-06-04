@@ -51,36 +51,36 @@ else
 lib:
 endif
 
-prg: .depend nsd nsadmin
+prg: .depend nsd$(EXEEXT) nsadmin$(EXEEXT)
 
 idlcompile: CosNaming.cc CosNaming_skel.cc
 
-nsd: $(SRV_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o nsd
+nsd$(EXEEXT): $(SRV_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
-nsadmin: $(CLNT_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(CLNT_OBJS) $(ALLLIBS) -o nsadmin
+nsadmin$(EXEEXT): $(CLNT_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(CLNT_OBJS) $(ALLLIBS) -o $@
 	$(POSTLD) $@
 
 
 CosNaming.h CosNaming.cc CosNaming_skel.cc .NOTPARALLEL: ../../include/coss/CosNaming.idl $(IDL)
-	$(IDL) $(IDLFLAGS) --c++-skel --name CosNaming \
+	$(IDL) $(IDLFLAGS) --c++-skel --name CosNaming --windows-dll cossnaming \
 		../../include/coss/CosNaming.idl
 	cp CosNaming.h ../../include/coss
 
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.ii *.ti *.objid nsd nsadmin
+	-$(RM) *.o *.a *~ *.rpo *.ii *.ti *.objid nsd$(EXEEXT) nsadmin$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosNaming.h CosNaming.cc ../../include/coss/CosNaming.h \
 		CosNaming_skel.cc
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) nsd $(INSTDIR)/bin
-	$(IBINCMD) nsadmin $(INSTDIR)/bin
+	$(IBINCMD) nsd$(EXEEXT) $(INSTDIR)/bin
+	$(IBINCMD) nsadmin$(EXEEXT) $(INSTDIR)/bin
 
 ifeq (.depend, $(wildcard .depend))
 include .depend

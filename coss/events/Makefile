@@ -51,12 +51,12 @@ else
 lib:
 endif
 
-prg: .depend eventd
+prg: .depend eventd$(EXEEXT)
 
 idlcompile: CosEventComm.cc CosEventChannelAdmin.cc
 
-eventd: $(SRV_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o eventd
+eventd$(EXEEXT): $(SRV_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 CosEventComm.h CosEventComm.cc: ../../include/coss/CosEventComm.idl $(IDL)
@@ -74,7 +74,7 @@ CosEventChannelAdmin.h CosEventChannelAdmin.cc: \
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.objid eventd
+	-$(RM) *.o *.a *~ *.rpo *.objid eventd$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosEventChannelAdmin.h CosEventChannelAdmin.cc 
 	-$(RM) ../../include/coss/CosEventChannelAdmin.h
@@ -83,7 +83,7 @@ clean:
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) eventd $(INSTDIR)/bin
+	$(IBINCMD) eventd$(EXEEXT) $(INSTDIR)/bin
 
 ifeq (.depend, $(wildcard .depend))
 include .depend

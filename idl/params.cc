@@ -72,11 +72,13 @@ IDLParam::set_defaults()
   cpp = "mico-cpp";
 #else // _WIN32
   cpp = "mico-cpp.exe";
+#ifndef __PARITY__
   char sz_path[256] = "";
   GetModuleFileName(0, sz_path, 255);
   string p(sz_path);
   p.erase(p.find_last_of("\\") + 1, p.length());
   cpp = "\"" + p + cpp + "\"";
+#endif
 #endif // _WIN32
 
   base_dir = "";

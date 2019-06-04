@@ -62,12 +62,12 @@ else
 lib:
 endif
 
-prg: .depend traderd
+prg: .depend traderd$(EXEEXT)
 
 idlcompile: CosTrading.cc CosTrading_skel.cc CosTradingRepos.cc CosTradingRepos_skel.cc
 
-traderd: $(SRV_OBJS) ../../orb/$(LIBMICO)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o traderd
+traderd$(EXEEXT): $(SRV_OBJS) ../../orb/$(LIBMICO)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRV_OBJS) $(LDLIBS) -o $@
 	$(POSTLD) $@
 
 
@@ -83,7 +83,7 @@ CosTradingRepos.h CosTradingRepos.cc CosTradingRepos_skel.cc .NOTPARALLEL: ../..
 # cleaning
 
 clean:
-	-$(RM) *.o *.a *~ *.rpo *.objid traderd
+	-$(RM) *.o *.a *~ *.rpo *.objid traderd$(EXEEXT)
 	-$(RM) .depend TAGS core nohup.out
 	-$(RM) CosTrading.h CosTrading.cc CosTradingRepos.h CosTradingRepos.cc
 	-$(RM) ../../include/coss/CosTrading.h ../../include/coss/CosTradingRepos.h
@@ -91,7 +91,7 @@ clean:
 
 install:
 	$(IDIRCMD) $(INSTDIR)/bin
-	$(IBINCMD) traderd $(INSTDIR)/bin
+	$(IBINCMD) traderd$(EXEEXT) $(INSTDIR)/bin
 
 generate:
 	$(BISON) -d -t -v -o yacc.c yacc.yy

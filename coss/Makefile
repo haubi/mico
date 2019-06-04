@@ -193,10 +193,12 @@ SHARED_OBJS = $(STATIC_OBJS:.o=.pic.o)
 # mingw hack
 
 ifeq ($(OSTYPE), windows)
+ifneq ($(SUBOSTYPE), parity)
 ifeq ($(HAVE_SHARED), yes)
 HAVE_SHARED_EXCEPTS := no
 HAVE_SHARED := no
 HAVE_STATIC := yes
+endif
 endif
 endif
 
@@ -241,6 +243,7 @@ endif
 		-L../libs $(LDMICO) $(PLATFORM_LIBS)
 	$(IDIRCMD) ../libs
 	cd ../libs; $(RM) $@; $(LN) ../coss/$@ .
+	test ! -f $@.dll || ( cd ../libs; rm -f $@.dll; $(LN) ../coss/$@.dll . )
 endif
 
 # static
@@ -261,7 +264,7 @@ endif
 
 clean:
 	for i in $(CLEANDIRS); do $(MAKE) -C $$i clean || exit 1; done
-	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.objid
+	-$(RM) *.o *.o0 *.a *~ *.$(SOEXT) *.exe *.rpo *.objid *.dll *.pdb *.exp
 	-$(RM) .depend TAGS core nohup.out
 
 idlcompile:
@@ -274,6 +277,7 @@ install:
 ifneq ($(strip $(SUBDIRS)),)
 ifeq ($(HAVE_SHARED_EXCEPTS), yes)
 	$(ILIBCMD) libmicocoss$(VERSION).$(SOEXT) $(INSTDIR)/lib
+	test ! -f libmicocoss$(VERSION).$(SOEXT).dll || $(ILIBCMD) libmicocoss$(VERSION).$(SOEXT).dll $(INSTDIR)/lib
 ifeq ($(HAVE_STATIC), yes)
 	$(ILIBCMD) libmicocoss$(VERSION).a $(INSTDIR)/lib
 endif

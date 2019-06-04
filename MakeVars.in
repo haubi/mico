@@ -28,6 +28,15 @@ INSTDIR		= @ABSEXECDIR@
 SHARED_INSTDIR	= @ABSSHRDDIR@
 
 OSTYPE          = @OSTYPE@
+SUBOSTYPE		= @SUBOSTYPE@
+EXEEXT =
+
+ifeq ($(OSTYPE), windows)
+ifeq ($(SUBOSTYPE), parity)
+EXEEXT = .exe
+endif
+endif
+
 # We need the compiler type, not just the os
 HAVE_MINGW	= @HAVE_MINGW@
 HAVE_CYGWIN	= @HAVE_CYGWIN@
@@ -129,9 +138,9 @@ DVIPDFM		= dvipdfm
 LATEX2HTML	= latex2html
 FIG2DEV		= fig2dev
 MKFAQ           = $(SRCDIR)/admin/mkfaq
-IDL		= @IDL@
-IDLGEN		= @IDL@
-CCMGEN          = @CCMGEN@
+IDL		= @IDL@$(EXEEXT)
+IDLGEN		= @IDL@$(EXEEXT)
+CCMGEN          = @CCMGEN@$(EXEEXT)
 MKDEPEND	= @MKDEPEND@
 # on some Solaris systems strip does not support ELF binaries ...
 IBINCMD         = $(SRCDIR)/admin/install-sh -c -m 755
@@ -177,6 +186,7 @@ LDMICOAUX              = -lmicoaux$(VERSION)
 LDMICOCCM              = -lmicoccm$(VERSION)
 
 ifeq ($(OSTYPE), windows)
+ifneq ($(SUBOSTYPE), parity)
 ifeq ($(HAVE_SHARED), yes)
 export PATH           := @LIBPATH@:$(PATH)
 NODOTVERSION           = $(shell tr -d \. < $(SRCDIR)/VERSION)
@@ -185,6 +195,7 @@ LDMICO                := -lmico$(NODOTVERSION)
 LIBMICOIR              = libmicoir$(VERSION).a
 LIBMICOAUX	       = libmicoaux$(VERSION).a
 LIBMICOCOSS	       = libmicocoss$(VERSION).a
+endif
 endif
 endif
 
