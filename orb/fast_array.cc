@@ -40,6 +40,7 @@
 
 #endif // FAST_PCH
 
+#include <limits.h>
 
 using namespace std;
 
